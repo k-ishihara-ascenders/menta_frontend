@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<p v-once>{{message}}</p>
+		<p>{{ sayHi() }}</p>
+		<button v-on:click="reverseMessage">メッセージ反転</button>
+	</div>
+
+	<script src="js/vue.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

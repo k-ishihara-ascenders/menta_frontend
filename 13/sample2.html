@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>分岐・ループ</title>
+</head>
+<body>
+	<div id="app">
+		<p v-if="error">エラーです</p>
+	</div>
+
+	<script src="vue.js"></script>
+	<script>
+		'use strict';
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				error: false
+			}
+		});
+	</script>
+</body>
+</html>

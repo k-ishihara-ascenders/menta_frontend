@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<style>
+		.alert {
+			background-color: #fcc;
+			border: 1px solid #f33;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<alert-box>◯◯が入力させていません</alert-box>
+		<alert-box>◯◯が入力させていません</alert-box>
+		<alert-box>◯◯が入力させていません</alert-box>
+	</div>
+
+	<script src="vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+	<script>
+		'use strict';
+
+		Vue.component('alert-box', {
+			template: `
+			<div class="alert" @click="caution">
+				<strong>エラー!</strong>
+				<slot></slot>
+			</div>
+			`,
+			methods: {
+				caution: function() {
+					alert('クリックされました');
+				}
+			}
+		});
+
+		var app = new Vue({
+			el: '#app'
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<ul>
+			<li v-for="pref in prefs">{{pref.name}}</li>
+		</ul>
+	</div>
+
+	<script src="vue.js"></script>
+	<script>
+		'use strict';
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				prefs: [
+					{name: '北海道'},
+					{name: '岩手県'},
+					{name: '宮城県'},
+					{name: '秋田県'},
+					{name: '山形県'},
+					{name: '福島県'}
+				]
+			},
+			methods: {
+			}
+		});
+	</script>
+</body>
+</html>

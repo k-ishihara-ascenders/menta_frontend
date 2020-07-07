@@ -4,12 +4,40 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<div id="app">
+		<p>{{contact}}</p>
 		<p v-once>{{message}}</p>
 		<p>{{ sayHi() }}</p>
-		<button v-on:click="reverseMessage">メッセージ反転</button>
+		<button v-on:click="reverseContact">メッセージ反転</button>
+		<br>
+		<a :[attribute]="url">Google</a>
+		<a v-bind="twitterObject">Twitter</a>
+
+		<p>現在{{ number }}回クリックされています。</p>
+		<button v-on:click="countUp(3)">カウントアップ</button>
+		<p v-on:mousemove="changeMousePosition(3, $event)">マウスを乗せてください<span v-on:mousemove.stop.prevent>反応しないでください</span></p>
+		<a @[event].prevent href="https://google.com">Google</a>
+		<p>x:{{ x }}, y:{{ y }}</p>
+		<input type="text" v-on:keyup.space="myAlert">
+		<br>
+		<input type="text" v-model="message2">
+		<h1 :class="classObject">{{message2}}</h1>
+		<button @click="isActive = !isActive">切り替え</button>
+
+		<h1 :class="[{red: isActive}, bg]">ヘッドタイトル</h1>
+
+		<h1 :style="{color: textColor, 'background-color': bgColor}">ヘッドタイトル1</h1>
+
+		<h1 :style="styleObject">ヘッドタイトル1</h1>
+
+
+		<p>{{ counter }}</p>
+		<button @click="counter += 1">+1</button>
+		<p>{{ lessThanThree }}</p>
 	</div>
 
 	<script src="js/vue.js"></script>

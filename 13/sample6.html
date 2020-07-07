@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<style>
+		.flip-list-move {
+			transition: transform .5s;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button @click="shuffle">シャッフル</button>
+		<transition-group name="flip-list" tag="ul">
+			<li v-for="pref in prefs" :key="pref.name">{{pref.name}}</li>
+		</transition-group>
+		</ul>
+	</div>
+
+	<script src="vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+	<script>
+		'use strict';
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				prefs: [
+					{name: '北海道'},
+					{name: '岩手県'},
+					{name: '宮城県'},
+					{name: '秋田県'},
+					{name: '山形県'},
+					{name: '福島県'}
+				]
+			},
+			methods: {
+				shuffle: function(e) {
+					this.prefs = _.shuffle(this.prefs);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

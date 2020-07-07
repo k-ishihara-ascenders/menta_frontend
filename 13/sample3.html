@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<style>
+		.error {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<p :class="error_class">エラーです</p>
+		<img :src="img_src" alt="">
+	</div>
+
+	<script src="vue.js"></script>
+	<script>
+		'use strict';
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				error_class: 'error',
+				img_src: 'img01.png'
+			}
+		});
+	</script>
+</body>
+</html>

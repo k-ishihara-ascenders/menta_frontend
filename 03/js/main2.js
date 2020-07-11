@@ -24,27 +24,29 @@
   }
 
   function setButtonStateInitial() {
-    start.classList.remove('inactive');
+		start.classList.remove('inactive');
+		start.innerText = 'Start';
     // stop.classList.add('inactive');
     // reset.classList.add('inactive');
   };
   function setButtonStateRunning() {
-    start.classList.add('inactive');
+		// start.classList.add('inactive');
+		start.innerText = 'Stop';
     // stop.classList.remove('inactive');
 		// reset.classList.add('inactive');
   };
-  function setButtonStateStopped() {
-    start.classList.remove('inactive');
-    // stop.classList.add('inactive');
-    reset.classList.remove('inactive');
-  };
+  // function setButtonStateStopped() {
+  //   start.classList.remove('inactive');
+  //   stop.classList.add('inactive');
+  //   reset.classList.remove('inactive');
+  // };
 
   setButtonStateInitial();
 
   start.addEventListener('click', () => {
-    if(start.classList.contains('inactive') === true) {
-      return;
-    }
+    // if(start.classList.contains('inactive') === true) {
+    //   return;
+    // }
     setButtonStateRunning();
     startTime = Date.now();
     countUp();

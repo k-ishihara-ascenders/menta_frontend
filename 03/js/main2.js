@@ -25,42 +25,38 @@
 
   function setButtonStateInitial() {
 		start.classList.remove('inactive');
+		start.classList.remove('stop');
 		start.innerText = 'Start';
     // stop.classList.add('inactive');
     // reset.classList.add('inactive');
   };
   function setButtonStateRunning() {
-		// start.classList.add('inactive');
+		start.classList.add('stop');
 		start.innerText = 'Stop';
     // stop.classList.remove('inactive');
 		// reset.classList.add('inactive');
   };
-  // function setButtonStateStopped() {
-  //   start.classList.remove('inactive');
-  //   stop.classList.add('inactive');
-  //   reset.classList.remove('inactive');
-  // };
+  function setButtonStateStopped() {
+    start.classList.remove('stop');
+		start.innerText = 'Start';
+    // stop.classList.add('stop');
+    // reset.classList.remove('stop');
+  };
 
   setButtonStateInitial();
 
   start.addEventListener('click', () => {
-    // if(start.classList.contains('inactive') === true) {
-    //   return;
-    // }
-    setButtonStateRunning();
-    startTime = Date.now();
-    countUp();
+    if(start.classList.contains('stop') === true) {
+      clearTimeout(timeoutId);
+      elapsedTime += Date.now() - startTime;
+
+      setButtonStateStopped();
+    } else {
+      setButtonStateRunning();
+      startTime = Date.now();
+      countUp();
+    }
   });
-
-  // stop.addEventListener('click', () => {
-  //   if(stop.classList.contains('inactive') === true) {
-  //     return;
-  //   }
-  //   clearTimeout(timeoutId);
-  //   elapsedTime += Date.now() - startTime;
-
-  //   setButtonStateStopped();
-  // });
 
   reset.addEventListener('click', () => {
     if(reset.classList.contains('inactive') === true) {

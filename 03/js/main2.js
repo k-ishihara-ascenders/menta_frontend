@@ -74,3 +74,6 @@
     setButtonStateInitial();
   });
 }
+
+// TODO: todoタスク
+// FIXME: バグ修正 / リファクタリング（少しおかしい所）

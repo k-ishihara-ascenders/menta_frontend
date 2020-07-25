@@ -1,0 +1,36 @@
+@charset 'uft-8';
+
+body {
+  padding-top: 40px;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+}
+
+#target {
+	margin-bottom: 10px;
+  font-size: 48px;
+  letter-spacing: 3px;
+}
+
+#judge {
+	display: none;
+	margin-top: 0;
+	margin-bottom: 50px;
+	font-weight: bold;
+	font-size: 30px;
+}
+
+#judge.correct {
+	display: block;
+	color: #155724;
+}
+
+#judge.wrong {
+	display: block;
+	color: #721c24;
+}
+
+.info {
+  color: #cccccc;
+}
+

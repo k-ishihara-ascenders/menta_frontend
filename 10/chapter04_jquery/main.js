@@ -5,7 +5,7 @@ $(function() {
 	const taxAmountText = $('#tax-amount');
 	const taxIncludedText = $('#tax-included');
 
-	$(taxBtn).click(function() {
+	const calcTax = function() {
 		const price = $('#price').val() * 1;
 		const taxRate = $('#tax-rate').val() * 1;
 		const taxAmount = Math.floor(price * taxRate / 100);
@@ -15,5 +15,7 @@ $(function() {
 		console.log(taxAmountText);
 
 		taxIncludedText.text(taxIncluded.toString(10));
-	});
+	}
+
+	$(taxBtn).click(calcTax);
 });

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1>税計算アプリ</h1>
+	<div class="form-group">
+		<p>金額：<input type="number" id="price"></p>
+		<p>税率：<input type="number" id="tax-rate"></p>
+	</div>
+
+	<button id="tax-btn">計算</button>
+
+	<div class="form-group">
+		<p>税額：<span id="tax-amount"></span></p>
+		<p>税込み金額：<span id="tax-included"></span></p>
+	</div>
+
+	<script src="./lib/jquery.min.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>

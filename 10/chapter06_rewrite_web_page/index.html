@@ -13,6 +13,36 @@
 	<!-- <link rel="stylesheet" type="text/css" href="main.css" /> -->
 </head>
 <body>
+	<div class="container">
+		<h1>アウトライン メモ</h1>
+
+		<!-- メモ -->
+		<div class="form-group">
+			<input type="text" id="line" value="text">
+			<button type="button" class="btn btn-primary" id="btnAppend">Append</button>
+			<button type="button" class="btn btn-primary" id="btnNest">Nest</button>
+		</div>
+
+		<!-- テンプレート -->
+		<div id="template" style="display: none">
+			<li>
+				<label>
+					<input type="radio" name="sel">
+					<span>%s</span>
+				</label>
+			</li>
+		</div>
+
+		<!-- リスト表示 -->
+		<ul>
+			<li id="group-1">
+				<label>
+					<input type="radio" name="sel" checked>
+					<span>ルート</span>
+				</label>
+			</li>
+		</ul>
+	</div>
 
 	<script src="./lib/jquery.min.js"></script>
 	<script src="main.js"></script>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>メモ アプリ</title>
+
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./lib/common.css"><!-- 表示の微調整用 -->
+
+	<!-- 外部CSS/JavaScript -->
+	<!-- <link rel="stylesheet" type="text/css" href="main.css" /> -->
+
+	<style>
+	</style>
+
+</head>
+
+<body>
+	<div class="container">
+		<h1>動画再生アプリ</h1>
+
+		<div style="text-align: center;">
+			<video poster="video/video/img.jpg" controls id="video" width="320" height="180">
+				<source src="video/video/video.webm">
+				<source src="video/video/video.mp4">
+				<source src="video/video/video.ogv">
+				<p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
+			</video>
+		</div>
+
+		<!-- ボタン -->
+		<button type="button" class="btn btn-primary btn-block" id="btnPlay">Play</button>
+		<button type="button" class="btn btn-primary btn-block" id="btnPause">Pause</button>
+		<button type="button" class="btn btn-primary btn-block" id="btnStop">Stop</button>
+
+		<span class="help-block">動画：<a href="http://www.wedistill.io/videos/134">Distill: Free HD Stock Video & HD Video Clips</a> 変換：<a href="http://www.xmedia-recode.de/">XMediaRecode</a></span>
+	</div>
+
+
+	<script src="./lib/jquery.min.js"></script>
+	<script src="main2.js"></script>
+</body>
+
+</html>

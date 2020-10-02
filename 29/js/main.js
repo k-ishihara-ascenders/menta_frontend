@@ -8,28 +8,28 @@ const vm = new Vue({
 	el: '#app',
 
 	data: {
-		id: 1,
-		radioName: 'radio',
-		radioYet: 'yet',
-		radioProgress: 'progress',
-		radioDone: 'done',
-		newTodo: '',
-		newLimit: {
+		id: 1, // ID
+		radioName: 'radio', // ラジオボタンの名前用
+		radioYet: 'yet', // ラジオボタンの未着手用の文言
+		radioProgress: 'progress', // ラジオボタンの進行中用の文言
+		radioDone: 'done', // ラジオボタンの完了用の文言
+		newTodo: '', // タスク名
+		newLimit: { // 期限日
 			year: '',
 			month: '',
 			day: ''
 		},
-		status: '未着手',
-		isDone: false,
-		todos: [],
-		nowYear: 0,
-		maxYear: 0,
-		lastDay: 0,
+		status: '未着手', // デフォルトのステータス
+		isDone: false, // 完了かどうか
+		todos: [], // タスクの配列
+		nowYear: 0, // 現在の年（期限の年の最低年用）
+		maxYear: 0, // 期限の年の最高年用
+		lastDay: 0, // 期限の日の末日設定用
 	},
 
 	methods: {
 		addTodo: function() {
-			if(this.newTodo == '' && this.newLimit.year == '' && this.newLimit.month == '' && this.newLimit.day == '') return;
+			if(this.newTodo == '' || this.newLimit.year == '' || this.newLimit.month == '' || this.newLimit.day == '') return;
 			if(this.newLimit == '') return;
 			this.todos.push({
 				id: this.id,
@@ -53,7 +53,7 @@ const vm = new Vue({
 			this.todos.splice(index, 1);
 		},
 
-		radioChange: function(index) {
+		radioChange: function(index) { // 完了かどうかの判断用
 			if(this.todos[index].status === "完了") {
 				this.todos[index].isDone = true;
 			} else {
@@ -61,7 +61,7 @@ const vm = new Vue({
 			}
 		},
 
-		changeMonth: function() {
+		changeMonth: function() { // 期限の日の末日設定
 			const day31 = ['1','3','5','7','8','10','12'];
 			const day30 = ['4','6','9','11'];
 			const day29 = ['2'];
@@ -78,7 +78,7 @@ const vm = new Vue({
 		}
 	},
 
-	created: function() {
+	created: function() { // 現在の年の取得用
 		this.nowYear = new Date().getFullYear();
 		this.maxYear = this.nowYear + 10;
 	}

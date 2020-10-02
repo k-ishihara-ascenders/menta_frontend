@@ -7,7 +7,12 @@
 </head>
 <body>
 	<div id="app">
-		<p>{{ message }}</p>
+		<!--入力値をnameプロパティにバインド -->
+		<label>名前:
+			<input type="text" v-model="name" />
+		</label>
+		<p> 入力された値: {{upperName}}</p>
+		</div>
 	</div>
 
 	<script src="js/vue.js"></script>

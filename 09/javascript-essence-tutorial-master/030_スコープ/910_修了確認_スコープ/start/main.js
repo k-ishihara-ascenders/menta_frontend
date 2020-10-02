@@ -3,12 +3,13 @@
  * 以下のコードではエラーが発生します。
  * コンソールで"fn called"と表示されるように
  * fn内のコードを変更してください。
- * 
+ *
  * ※if文は削除してはいけません。
  */
 function fn() {
+    let a;
     if(true) {
-        let a = 'fn called';
+        a = 'fn called';
     }
     return a; // ReferenceError: a is not defined
 }
@@ -26,7 +27,7 @@ function fn2() {
     console.log(val); // 期待値->'val1'
 
     if(true) {
-        var val = 'val2';
+        let val = 'val2';
         console.log(val); // 期待値->'val2'
     }
 
@@ -39,10 +40,24 @@ fn2();
  * 「クロージャー（プライベート変数）」のレクチャーで作成
  * したincrementと同じ機能を持つincrement関数をブロック
  * スコープとクロージャーを利用して作成してみてください。
- * 
+ *
  * increment(); // 期待値->1
  * increment(); // 期待値->2
  * increment(); // 期待値->3
  * increment(); // 期待値->4
  */
+
+{
+  let i = 0;
+  function increment() {
+    i++;
+    console.log(i);
+  }
+}
+
+increment(); // 期待値->1
+increment(); // 期待値->2
+increment(); // 期待値->3
+increment(); // 期待値->4
+
 

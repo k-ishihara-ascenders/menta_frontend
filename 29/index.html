@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TODOリスト</title>
+
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="app">
+		<h1>TODOリスト</h1>
+
+		<form @submit.prevent>
+			<fieldset>
+				<label>タスク名：</label>
+				<input type="text" v-model="newTodo">
+			</fieldset>
+
+			<fieldset>
+				<label>期限：</label>
+					<input type="number" name="year" id="year" size="8" maxlength="4" v-model="newLimit.year" :min="nowYear" :max="maxYear">
+					 年
+					<input type="number" name="month" id="month" size="4" maxlength="2" min="1" max="12" v-model="newLimit.month" @change="changeMonth">
+					月
+					<input type="number" name="day" id="day" size="4" maxlength="2" min="1" :max="lastDay" v-model="newLimit.day">
+					日
+			</fieldset>
+
+			<button @click="addTodo" class="add-btn">追加</button>
+
+			<ul>
+				<li v-for="(todo, index) in todos">
+					<p>
+						<span>{{todo.id}}.　</span>
+						<span :class="{done: todo.isDone}">タスク名：{{todo.title}}</span>
+					</p>
+
+					<p>期限：{{todo.limit.year}}年{{todo.limit.month}}月{{todo.limit.day}}日</p>
+					<div>
+						ステータス：
+						<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)"><label :for="todo.radioYet">未着手</label>
+						<input type="radio" :name="todo.radioName" value="進行中" :id="todo.radioProgress" v-model="todo.status" @change="radioChange(index)"><label :for="todo.radioProgress">進行中</label>
+						<input type="radio" :name="todo.radioName" value="完了" :id="todo.radioDone" v-model="todo.status" @change="radioChange(index)"><label :for="todo.radioDone">完了</label>
+					</div>
+
+					<button @click="deleteTodo(index)">削除</button>
+				</li>
+			</ul>
+		</form>
+
+		<pre>{{$data}}</pre>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<p>{{message}}</p>
+		<p v-if="toggle"><a :href="url">Vue.js</a></p>
+		<ul>
+			<li v-for="language in languages">{{language}}</li>
+		</ul>
+
+		<button @click="onclick">クリック</button>
+
+		<p><input type="text" v-model="message"></p>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

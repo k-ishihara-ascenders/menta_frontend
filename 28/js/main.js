@@ -3,14 +3,17 @@
 const app = new Vue({
 	el: '#app',
 	data: {
-		message: "Hello World",
-		url: 'https://jp.vuejs.org/index.html',
-		toggle: true,
-		languages: ['JavaScript', 'Ruby', 'Python']
+		basePrice: 100,
+		basePrice2: 100
 	},
-	methods: {
-		onclick: function() {
-			this.message = 'Clicked!';
+	computed: {
+		taxIncludedPrice: {
+			get: function() {
+				return this.basePrice * 1.08;
+			},
+			set: function(taxIncludedPrice) {
+				this.basePrice = taxIncludedPrice / 1.08;
+			}
 		}
 	}
 })

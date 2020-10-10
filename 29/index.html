@@ -15,19 +15,15 @@
 			<fieldset>
 				<label>タスク名：</label>
 				<input type="text" v-model="newTodo">
-			</fieldset>
+				<br>
 
-			<fieldset>
 				<label>期限：</label>
-					<input type="number" name="year" id="year" size="8" maxlength="4" v-model="newLimit.year" :min="nowYear" :max="maxYear">
-					 年
-					<input type="number" name="month" id="month" size="4" maxlength="2" min="1" max="12" v-model="newLimit.month" @change="changeMonth">
-					月
-					<input type="number" name="day" id="day" size="4" maxlength="2" min="1" :max="lastDay" v-model="newLimit.day">
-					日
-			</fieldset>
+				<input type="number" name="year" id="year" size="8" maxlength="4" v-model.number="newLimit.year" min="2020" max="2025">年
+				<input type="number" name="month" id="month" size="4" maxlength="2" min="1" max="12" v-model.number="newLimit.month">月
+				<input type="number" name="day" id="day" size="2" maxlength="2" min="1" max="31" v-model.number="newLimit.date">日
 
-			<button @click="addTodo" class="add-btn">追加</button>
+				<button @click="addTodo" class="add-btn">追加</button>
+			</fieldset>
 
 			<ul>
 				<li v-for="(todo, index) in todos">
@@ -36,7 +32,7 @@
 						<span :class="{done: todo.isDone}">タスク名：{{todo.title}}</span>
 					</p>
 
-					<p>期限：{{todo.limit.year}}年{{todo.limit.month}}月{{todo.limit.day}}日</p>
+					<p>期限：{{todo.limit}}</p>
 					<div>
 						ステータス：
 						<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
@@ -49,9 +45,23 @@
 						<label :for="todo.radioDone">完了</label>
 					</div>
 
+					<button @click="editShow(index)">編集</button>
 					<button @click="deleteTodo(index)">削除</button>
 				</li>
 			</ul>
+
+			<fieldset v-show="isEdit">
+				<label>タスク名：</label>
+				<input type="text" v-model="newTodo">
+				<br>
+
+				<label>期限：</label>
+				<input type="number" name="year" id="year" size="8" maxlength="4" v-model.number="newLimit.year" min="2020" max="2025">年
+				<input type="number" name="month" id="month" size="4" maxlength="2" min="1" max="12" v-model.number="newLimit.month">月
+				<input type="number" name="day" id="day" size="2" maxlength="2" min="1" max="31" v-model.number="newLimit.date">日
+
+				<button @click="changeTodo(editIndex)" class="change-btn">変更</button>
+			</fieldset>
 		</form>
 
 		<pre>{{$data}}</pre>

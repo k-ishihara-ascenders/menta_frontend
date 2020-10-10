@@ -4,21 +4,24 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+
+	<style>
+		[v-cloak] {
+			display: none;
+		}
+	</style>
 </head>
 <body>
 	<div id="app">
-		<p>{{message}}</p>
-		<p v-if="toggle"><a :href="url">Vue.js</a></p>
-		<ul>
-			<li v-for="language in languages">{{language}}</li>
-		</ul>
+		<p>base price: <input type="text" v-model="basePrice"></p>
+		<p>tax included price: <input type="text" v-model="taxIncludedPrice"></p>
 
-		<button @click="onclick">クリック</button>
-
-		<p><input type="text" v-model="message"></p>
+		<p>base price: <input type="text" v-model="basePrice2"></p>
+		<p>tax included price: <input type="text" v-model="taxIncludedPrice2"></p>
 	</div>
 
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

@@ -45,23 +45,23 @@
 						<label :for="todo.radioDone">完了</label>
 					</div>
 
-					<button @click="editShow(index)">編集</button>
+					<button>編集</button>
 					<button @click="deleteTodo(index)">削除</button>
 				</li>
 			</ul>
 
-			<fieldset v-show="isEdit">
+			<!-- <fieldset v-show="isEdit">
 				<label>タスク名：</label>
-				<input type="text" v-model="newTodo">
+				<input type="text" v-model="editTodo">
 				<br>
 
 				<label>期限：</label>
-				<input type="number" name="year" id="year" size="8" maxlength="4" v-model.number="newLimit.year" min="2020" max="2025">年
-				<input type="number" name="month" id="month" size="4" maxlength="2" min="1" max="12" v-model.number="newLimit.month">月
-				<input type="number" name="day" id="day" size="2" maxlength="2" min="1" max="31" v-model.number="newLimit.date">日
+				<input type="number" name="year" id="year" size="8" maxlength="4" v-model.number="editLimit.year" min="2020" max="2025">年
+				<input type="number" name="month" id="month" size="4" maxlength="2" min="1" max="12" v-model.number="editLimit.month">月
+				<input type="number" name="day" id="day" size="2" maxlength="2" min="1" max="31" v-model.number="editLimit.date">日
 
 				<button @click="changeTodo(editIndex)" class="change-btn">変更</button>
-			</fieldset>
+			</fieldset> -->
 		</form>
 
 		<pre>{{$data}}</pre>

@@ -17,9 +17,16 @@ const vm = new Vue({
 		}, // dateオブジェクト
 		status: '未着手', // デフォルトのステータス
 		isDone: false, // 完了かどうか
-		isEdit: false, // 編集フォームの表示・非表示
+		// isEdit: false, // 編集フォームの表示・非表示
 		todos: [], // タスクの配列
-		editIndex: 0
+		// editIndex: 0,
+		// editTodo: '',
+		// editLimit: {
+		// 	year: '',
+		// 	month: '',
+		// 	date: ''
+		// },
+		// editStatus: '',
 		// nowYear: 0, // 期限の年の最低年用
 		// maxYear: 0, // 期限の年の最高年用
 	},
@@ -82,14 +89,18 @@ const vm = new Vue({
 			// this.newLimit.date = new Date().getDate();
 		},
 
-		editShow: function(index) {
-			this.isEdit = true;
-			this.editIndex = index;
-		},
+		// editShow: function(index) {
+		// 	this.isEdit = true;
+		// 	this.editIndex = index;
+		// 	this.editId = this.todos[index].
+		// 	this.editLimit.year = '';
+		// 	this.editLimit.month = '';
+		// 	this.editLimit.date = '';
+		// },
 
-		changeTodo: function(index) {
-			this.isEdit = false;
-		},
+		// changeTodo: function(index) {
+		// 	this.isEdit = false;
+		// },
 
 		deleteTodo: function(index) {
 			this.todos.splice(index, 1);

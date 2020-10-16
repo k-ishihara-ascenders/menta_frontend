@@ -16,3 +16,17 @@ li {
 .done {
 	text-decoration: line-through;
 }
+
+#app {
+	width: 800px;
+	margin: 30px auto 0;
+}
+
+table {
+	width: 100%;
+	margin-top: 50px;
+	border-collapse:collapse;		/*セル同士の間に隙間を空けない*/
+}
+table th, table td {
+	border: 1px solid #444;
+}

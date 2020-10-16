@@ -32,7 +32,7 @@
 						<span :class="{done: todo.isDone}">タスク名：{{todo.title}}</span>
 					</p>
 
-					<p>期限：{{todo.limit}}</p>
+					<p>期限：{{todo.limits}}</p>
 					<div>
 						ステータス：
 						<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
@@ -45,12 +45,12 @@
 						<label :for="todo.radioDone">完了</label>
 					</div>
 
-					<button>編集</button>
+					<button @click="editShow(index)">編集</button>
 					<button @click="deleteTodo(index)">削除</button>
 				</li>
 			</ul>
 
-			<!-- <fieldset v-show="isEdit">
+			<fieldset v-show="isEdit">
 				<label>タスク名：</label>
 				<input type="text" v-model="editTodo">
 				<br>
@@ -61,7 +61,7 @@
 				<input type="number" name="day" id="day" size="2" maxlength="2" min="1" max="31" v-model.number="editLimit.date">日
 
 				<button @click="changeTodo(editIndex)" class="change-btn">変更</button>
-			</fieldset> -->
+			</fieldset>
 		</form>
 
 		<pre>{{$data}}</pre>

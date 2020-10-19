@@ -18,6 +18,7 @@ const vm = new Vue({
 		status: '未着手', // デフォルトのステータス
 		isDone: false, // 完了かどうか
 		todos: [], // タスクの配列
+		processTodos: [],  // 表示用のタスクの配列
 
 		isEdit: false, // 編集用の表示・非表示
 		editIndex: 0,// 編集用のインデックス
@@ -27,6 +28,20 @@ const vm = new Vue({
 			month: '',
 			date: ''
 		},
+		isSortId: true,
+		sortIdText: '新しい順に変更',
+
+		filterDateStart: {
+			year: '2020',
+			month: '1',
+			date: '1'
+		},
+		filterDateEnd: {
+			year: '2020',
+			month: '1',
+			date: '2'
+		},
+		filterCheck: [],
 	},
 
 	methods: {
@@ -51,11 +66,21 @@ const vm = new Vue({
 				status: this.status,
 				isDone: this.isDone
 			});
+			this.pushTodo();
+			this.sortId();
 			this.id++;
 			this.newTodo = '';
 			this.newLimit.year = '';
 			this.newLimit.month = '';
 			this.newLimit.date = '';
+		},
+
+		pushTodo: function() {
+			const that = this;
+			that.processTodos.length = 0;
+			that.todos.forEach(function(todo) {
+				that.processTodos.push(todo);
+			});
 		},
 
 		editShow: function(index) {
@@ -74,13 +99,15 @@ const vm = new Vue({
 			this.todos[index].limit.year = this.editLimit.year;
 			this.todos[index].limit.month = this.editLimit.month;
 			this.todos[index].limit.date = this.editLimit.date;
-			this.todos[index].limits = editLimits,
+			this.todos[index].limits = editLimits;
+			this.pushTodo();
 
 			this.isEdit = false;
 		},
 
 		deleteTodo: function(index) {
 			this.todos.splice(index, 1);
+			this.pushTodo();
 			this.isEdit = false;
 		},
 
@@ -90,6 +117,64 @@ const vm = new Vue({
 			} else {
 				this.todos[index].isDone = false;
 			}
+			this.pushTodo();
+		},
+
+		sortClickId: function() {
+			this.isSortId = !this.isSortId;
+			this.sortId();
+		},
+
+		sortId: function() {
+			// 昇順
+			if(this.isSortId === true) {
+				this.todos.sort(function(a,b){
+					return (a.id < b.id ? -1 : 1);
+				});
+				this.sortIdText = '新しい順に変更';
+				this.pushTodo();
+			}
+
+			// 降順
+			if(this.isSortId === false) {
+				this.todos.sort(function(a,b){
+					return (a.id > b.id ? -1 : 1);
+				});
+				this.sortIdText = '古い順に変更';
+				this.pushTodo();
+			}
+		},
+
+		sortClickFastLimit: function() {
+			// 昇順
+			this.todos.sort(function(a,b){
+				return (a.limits < b.limits ? -1 : 1);
+			});
+			this.pushTodo();
+		},
+
+		sortClickLastLimit: function() {
+			// 降順
+			this.todos.sort(function(a,b){
+				return (a.limits > b.limits ? -1 : 1);
+			});
+			this.pushTodo();
+		},
+
+		filterTodo: function() {
+			const startPeriod = new Date(this.filterDateStart.year, this.filterDateStart.month -1, this.filterDateStart.date).toLocaleDateString();
+			const endPeriod = new Date(this.filterDateEnd.year, this.filterDateEnd.month -1, this.filterDateEnd.date).toLocaleDateString();
+			const that = this;
+
+			that.processTodos.length = 0;
+
+			that.processTodos = that.todos.filter(function(value) {
+				return value.limits >= startPeriod && value.limits <= endPeriod;
+			});
+
+			that.processTodos = that.todos.filter(function(value) {
+				return that.filterCheck.includes(value.status) === true;
+			});
 		}
 	},
 });

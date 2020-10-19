@@ -18,6 +18,10 @@
 				<input type="text" v-model="newTodo">
 				<br>
 
+				<label>内容：</label>
+				<input type="text" v-model="newText">
+				<br>
+
 				<label>期限：</label>
 				<input type="number" name="year" id="year" size="8" maxlength="4" v-model.number="newLimit.year" min="2020" max="2025">年
 				<input type="number" name="month" id="month" size="4" maxlength="2" min="1" max="12" v-model.number="newLimit.month">月
@@ -26,19 +30,151 @@
 				<button @click="addTodo" class="add-btn">追加</button>
 			</fieldset>
 
+			<fieldset>
+				<h2>検索</h2>
+				<p>
+					<h3>期間</h3>
+					<select name="filterDateYearStart" v-model="filterDateStart.year">
+						<option value="2020">2020</option>
+						<option value="2021">2021</option>
+						<option value="2022">2022</option>
+						<option value="2023">2023</option>
+						<option value="2024">2024</option>
+						<option value="2025">2025</option>
+					</select>年
+
+					<select name="filterDateYearMonth" v-model="filterDateStart.month">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>月
+
+					<select name="filterDateDayStart" v-model="filterDateStart.date">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="23">23</option>
+						<option value="24">24</option>
+						<option value="25">25</option>
+						<option value="26">26</option>
+						<option value="27">27</option>
+						<option value="28">28</option>
+						<option value="29">29</option>
+						<option value="30">30</option>
+						<option value="31">31</option>
+					</select>日　〜
+
+					<select name="filterDateYearEnd" v-model="filterDateEnd.year">
+						<option value="2020">2020</option>
+						<option value="2021">2021</option>
+						<option value="2022">2022</option>
+						<option value="2023">2023</option>
+						<option value="2024">2024</option>
+						<option value="2025">2025</option>
+					</select>年
+
+					<select name="filterDateMonthEnd" v-model="filterDateEnd.month">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>月
+
+					<select name="filterDateDayEnd" v-model="filterDateEnd.date">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="23">23</option>
+						<option value="24">24</option>
+						<option value="25">25</option>
+						<option value="26">26</option>
+						<option value="27">27</option>
+						<option value="28">28</option>
+						<option value="29">29</option>
+						<option value="30">30</option>
+						<option value="31">31</option>
+					</select>日
+				</p>
+
+				<p>
+					<label for="filterYet">未着手</label>
+					<input type="checkbox" name="status" value="未着手" id="filterYet" v-model="filterCheck">
+					<label for="filterProgress">進行中</label>
+					<input type="checkbox" name="status" value="進行中" v-model="filterCheck">
+					<label for="filterDone">完了</label>
+					<input type="checkbox" name="status" value="完了" id="filterDone" v-model="filterCheck">
+				</p>
+
+				<button @click="filterTodo">検索</button>
+			</fieldset>
+
 			<table>
 				<thead>
 					<tr>
 						<th>
-							<button>新しい順</button>
-							<button>古い順</button>
+							<button @click="sortClickId">{{ sortIdText }}</button>
 						</th>
 						<th></th>
 						<th>
-							<button>期限が近い順</button>
-							<button>期限が遠い順</button>
+							<button @click="sortClickFastLimit">期限が早い順に変更</button>
+							<button @click="sortClickLastLimit">期限が遅い順に変更</button>
 						</th>
-						<th>？？？</th>
+						<th></th>
 						<th></th>
 					</tr>
 					<tr>
@@ -50,7 +186,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(todo, index) in todos">
+					<tr v-for="(todo, index) in processTodos">
 						<td>{{todo.id}}</td>
 						<td>{{todo.title}}</td>
 						<td>{{todo.limits}}</td>
@@ -86,7 +222,7 @@
 			</fieldset>
 		</form>
 
-		<pre>{{$data}}</pre>
+		<pre style="margin-top: 100px;">{{$data}}</pre>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>

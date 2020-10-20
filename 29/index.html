@@ -19,7 +19,7 @@
 				<br>
 
 				<label>内容：</label>
-				<input type="text" v-model="newText">
+				<textarea cols="50" rows="5" v-model="newText"></textarea>
 				<br>
 
 				<label>期限：</label>
@@ -170,18 +170,23 @@
 							<button @click="sortClickId">{{ sortIdText }}</button>
 						</th>
 						<th></th>
+						<th></th>
 						<th>
-							<button @click="sortClickFastLimit">期限が早い順に変更</button>
+							<button @click="sortClickFastLimit">期限が早い順に変更</button><br>
 							<button @click="sortClickLastLimit">期限が遅い順に変更</button>
 						</th>
+						<th></th>
 						<th></th>
 						<th></th>
 					</tr>
 					<tr>
 						<th>No.</th>
 						<th>タスク名</th>
+						<th>内容</th>
 						<th>期限</th>
 						<th>ステータス</th>
+						<th>作成日</th>
+						<th>更新日</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -189,6 +194,7 @@
 					<tr v-for="(todo, index) in processTodos">
 						<td>{{todo.id}}</td>
 						<td>{{todo.title}}</td>
+						<td>{{todo.text}}</td>
 						<td>{{todo.limits}}</td>
 						<td>
 							<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
@@ -200,6 +206,8 @@
 							<input type="radio" :name="todo.radioName" value="完了" :id="todo.radioDone" v-model="todo.status" @change="radioChange(index)">
 							<label :for="todo.radioDone">完了</label>
 						</td>
+						<td>{{todo.createTime}}</td>
+						<td>{{todo.editTime}}</td>
 						<td>
 							<button @click="editShow(index)">編集</button>
 							<button @click="deleteTodo(index)">削除</button>
@@ -212,6 +220,9 @@
 				<label>タスク名：</label>
 				<input type="text" v-model="editTodo">
 				<br>
+
+				<label>タスク名：</label>
+				<textarea cols="30" rows="10" v-model="editText"></textarea>
 
 				<label>期限：</label>
 				<input type="number" name="year" id="year" size="8" maxlength="4" v-model.number="editLimit.year" min="2020" max="2025">年

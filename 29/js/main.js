@@ -10,6 +10,7 @@ const vm = new Vue({
 		radioProgress: 'progress', // ラジオボタンの進行中用の文言
 		radioDone: 'done', // ラジオボタンの完了用の文言
 		newTodo: '', // タスク名
+		newText: '', // 内容
 		newLimit: { // 期限日
 			year: '',
 			month: '',
@@ -23,6 +24,7 @@ const vm = new Vue({
 		isEdit: false, // 編集用の表示・非表示
 		editIndex: 0,// 編集用のインデックス
 		editTodo: '', // 編集用のタスク名
+		editText: '', // 編集用の内容
 		editLimit: { // 編集用の期限日
 			year: '',
 			month: '',
@@ -42,6 +44,7 @@ const vm = new Vue({
 			date: '2'
 		},
 		filterCheck: [],
+		editTime: '',
 	},
 
 	methods: {
@@ -50,9 +53,12 @@ const vm = new Vue({
 
 			const limits = new Date(this.newLimit.year, this.newLimit.month -1, this.newLimit.date).toLocaleDateString();
 
+			const nowTime = new Date().toLocaleDateString();
+
 			this.todos.push({
 				id: this.id,
 				title: this.newTodo,
+				text: this.newText,
 				radioName: this.radioName + this.id.toString(),
 				radioYet: this.radioYet + this.id.toString(),
 				radioProgress: this.radioProgress + this.id.toString(),
@@ -63,6 +69,7 @@ const vm = new Vue({
 					date: this.newLimit.date,
 				},
 				limits: limits,
+				createTime: nowTime,
 				status: this.status,
 				isDone: this.isDone
 			});
@@ -70,6 +77,7 @@ const vm = new Vue({
 			this.sortId();
 			this.id++;
 			this.newTodo = '';
+			this.newText = '';
 			this.newLimit.year = '';
 			this.newLimit.month = '';
 			this.newLimit.date = '';
@@ -86,6 +94,7 @@ const vm = new Vue({
 		editShow: function(index) {
 			this.editIndex = index;
 			this.editTodo = this.todos[index].title;
+			this.editText = this.todos[index].text;
 			this.editLimit.year = this.todos[index].limit.year;
 			this.editLimit.month = this.todos[index].limit.month;
 			this.editLimit.date = this.todos[index].limit.date;
@@ -96,10 +105,13 @@ const vm = new Vue({
 			const editLimits = new Date(this.editLimit.year, this.editLimit.month -1, this.editLimit.date).toLocaleDateString();
 
 			this.todos[index].title = this.editTodo;
+			this.todos[index].text = this.editText;
 			this.todos[index].limit.year = this.editLimit.year;
 			this.todos[index].limit.month = this.editLimit.month;
 			this.todos[index].limit.date = this.editLimit.date;
 			this.todos[index].limits = editLimits;
+			const nowTime = new Date().toLocaleDateString();
+			this.todos[index].editTime = nowTime;
 			this.pushTodo();
 
 			this.isEdit = false;

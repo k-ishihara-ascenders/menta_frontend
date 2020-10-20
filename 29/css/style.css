@@ -14,7 +14,11 @@ li {
 }
 
 .done {
-	text-decoration: line-through;
+	background: #aaa;
+}
+
+.progress {
+	background: rgb(223, 207, 207);
 }
 
 #app {
@@ -29,4 +33,49 @@ table {
 }
 table th, table td {
 	border: 1px solid #444;
+}
+
+#modalBlock {
+	display: none;
+}
+
+.modalBg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.75);
+	z-index: 2;
+	transition: .2s ease-in-out;
+}
+
+.commentBlock {
+	position: fixed;
+	top: 100px;
+	left: calc(50% - 200px);
+	width: 700px;
+	height: 400px;
+	padding: 20px;
+	background: #fff;
+	z-index: 3;
+	transition: .2s ease-in-out;
+}
+
+#modalBlock.show {
+	display: block;
+	transition: .2s ease-in-out;
+}
+
+.closeBtn {
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+
+.cList  {
+	margin-bottom: 20px;
+}
+.cList li + li {
+	padding: 5px 0;
+	border-top: 1px solid #000;
 }

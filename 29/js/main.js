@@ -18,6 +18,7 @@ const vm = new Vue({
 		}, // dateオブジェクト
 		status: '未着手', // デフォルトのステータス
 		isDone: false, // 完了かどうか
+		isProgress: false, // 進行中かどうか
 		todos: [], // タスクの配列
 		processTodos: [],  // 表示用のタスクの配列
 
@@ -45,6 +46,9 @@ const vm = new Vue({
 		},
 		filterCheck: [],
 		editTime: '',
+		newComment: '',
+		commentList: [],
+		postIndex: 0,
 	},
 
 	methods: {
@@ -71,7 +75,9 @@ const vm = new Vue({
 				limits: limits,
 				createTime: nowTime,
 				status: this.status,
-				isDone: this.isDone
+				isDone: this.isDone,
+				isProgress: this.isProgress,
+				comments: [],
 			});
 			this.pushTodo();
 			this.sortId();
@@ -128,6 +134,11 @@ const vm = new Vue({
 				this.todos[index].isDone = true;
 			} else {
 				this.todos[index].isDone = false;
+			}
+			if(this.todos[index].status === "進行中") {
+				this.todos[index].isProgress = true;
+			} else {
+				this.todos[index].isProgress = false;
 			}
 			this.pushTodo();
 		},
@@ -187,6 +198,22 @@ const vm = new Vue({
 			that.processTodos = that.todos.filter(function(value) {
 				return that.filterCheck.includes(value.status) === true;
 			});
+		},
+
+		showComment: function(index) {
+			this.commentList = this.todos[index].comments;
+			this.postIndex = index;
+			document.getElementById('modalBlock').classList.add('show');
+		},
+
+		postComment: function(index) {
+			this.todos[index].comments.push(this.newComment);
+			this.commentList = this.todos[index].comments;
+			this.newComment = '';
+		},
+
+		closeComment: function() {
+			document.getElementById('modalBlock').classList.remove('show');
 		}
 	},
 });

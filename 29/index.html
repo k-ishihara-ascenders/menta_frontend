@@ -178,6 +178,7 @@
 						<th></th>
 						<th></th>
 						<th></th>
+						<th></th>
 					</tr>
 					<tr>
 						<th>No.</th>
@@ -191,7 +192,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(todo, index) in processTodos">
+					<tr v-for="(todo, index) in processTodos" :class="{done: todo.isDone, progress: todo.isProgress}">
 						<td>{{todo.id}}</td>
 						<td>{{todo.title}}</td>
 						<td>{{todo.text}}</td>
@@ -209,6 +210,7 @@
 						<td>{{todo.createTime}}</td>
 						<td>{{todo.editTime}}</td>
 						<td>
+							<button @click="showComment(index)">コメント</button>
 							<button @click="editShow(index)">編集</button>
 							<button @click="deleteTodo(index)">削除</button>
 						</td>
@@ -231,6 +233,21 @@
 
 				<button @click="changeTodo(editIndex)" class="change-btn">変更</button>
 			</fieldset>
+
+			<div id="modalBlock">
+				<div class="commentBlock">
+					<p class="closeBtn" @click="closeComment">閉じる</p>
+
+					<textarea cols="50" rows="5" v-model="newComment"></textarea>
+					<button @click="postComment(postIndex)">コメントする</button>
+
+					<ul class="cList">
+						<li v-for="comment in commentList">{{ comment }}</li>
+					</ul>
+
+				</div>
+				<div class="modalBg" @click="closeComment"></div>
+			</div>
 		</form>
 
 		<pre style="margin-top: 100px;">{{$data}}</pre>

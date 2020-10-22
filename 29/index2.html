@@ -234,7 +234,10 @@
 				<button @click="changeTodo(editIndex)" class="change-btn">変更</button>
 			</fieldset>
 
-			<div id="modalBlock">
+			<modal-component
+			@update:new-comment="newComment=$event"></modal-component>
+
+			<!-- <div id="modalBlock">
 				<div class="commentBlock">
 					<p class="closeBtn" @click="closeComment">閉じる</p>
 
@@ -247,7 +250,7 @@
 
 				</div>
 				<div class="modalBg" @click="closeComment"></div>
-			</div>
+			</div> -->
 		</form>
 
 		<pre style="margin-top: 100px;">{{$data}}</pre>

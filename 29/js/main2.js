@@ -1,8 +1,51 @@
 'use strict';
 
+const ModalComponent = {
+	props: [
+	],
+	data() {
+		return {
+			newComment: '',
+		}
+	},
+  computed: {
+    internalNewComment: {
+      get: function() {
+        return this.newComment;
+      },
+      set: function(newComment) {
+        this.$emit('update:new-comment', newComment);
+      }
+    }
+  },
+	methods: {
+		closeComment: function() {
+			document.getElementById('modalBlock').classList.remove('show');
+		},
+	},
+	template: `
+		<div id="modalBlock">
+			<div class="commentBlock">
+				<p class="closeBtn" @click="closeComment">閉じる</p>
+
+				<textarea cols="50" rows="5" v-model="internalNewComment"></textarea>
+				<button>コメントする</button>
+
+				<ul class="cList">
+					<li>{{  }}</li>
+				</ul>
+
+			</div>
+			<div class="modalBg" @click="closeComment"></div>
+		</div>
+	`
+};
+
 const vm = new Vue({
 	el: '#app',
-
+	components: {
+		'modal-component': ModalComponent,
+	},
 	data: {
 		id: 1, // ID
 		radioName: 'radio', // ラジオボタンの名前用
@@ -211,9 +254,5 @@ const vm = new Vue({
 			this.commentList = this.todos[index].comments;
 			this.newComment = '';
 		},
-
-		closeComment: function() {
-			document.getElementById('modalBlock').classList.remove('show');
-		}
 	},
 });

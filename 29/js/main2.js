@@ -2,10 +2,12 @@
 
 const ModalComponent = {
 	props: [
+		'todos',
 	],
 	data() {
 		return {
 			newComment: '',
+			commentTodos: this.todos,
 		}
 	},
   computed: {
@@ -19,6 +21,12 @@ const ModalComponent = {
     }
   },
 	methods: {
+		// postComment: function(index) {
+		// 	this.todos[index].comments.push(this.newComment);
+		// 	this.commentList = this.todos[index].comments;
+		// 	this.newComment = '';
+		// },
+
 		closeComment: function() {
 			document.getElementById('modalBlock').classList.remove('show');
 		},
@@ -32,7 +40,7 @@ const ModalComponent = {
 				<button>コメントする</button>
 
 				<ul class="cList">
-					<li>{{  }}</li>
+					<li>{{ commentTodos }}</li>
 				</ul>
 
 			</div>
@@ -249,10 +257,10 @@ const vm = new Vue({
 			document.getElementById('modalBlock').classList.add('show');
 		},
 
-		postComment: function(index) {
-			this.todos[index].comments.push(this.newComment);
-			this.commentList = this.todos[index].comments;
-			this.newComment = '';
-		},
+		// postComment: function(index) {
+		// 	this.todos[index].comments.push(this.newComment);
+		// 	this.commentList = this.todos[index].comments;
+		// 	this.newComment = '';
+		// },
 	},
 });

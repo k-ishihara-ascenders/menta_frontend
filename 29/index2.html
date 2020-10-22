@@ -235,6 +235,8 @@
 			</fieldset>
 
 			<modal-component
+			:todos="todos"
+			@update:todos="todos=$event"
 			@update:new-comment="newComment=$event"></modal-component>
 
 			<!-- <div id="modalBlock">

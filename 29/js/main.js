@@ -1,79 +1,8 @@
-
 'use strict';
-
-const modal = {
-	props: [
-		'todos',
-		'newComment',
-		'postIndex',
-		'commentList',
-	],
-	data: function(){
-		return {
-		}
-	},
-	template: `
-	<div id="modalBlock">
-		<div class="commentBlock">
-			<p class="closeBtn" @click="closeComment">閉じる</p>
-
-			<textarea cols="50" rows="5" v-model="innerNewComment"></textarea>
-			<p>{{ postIndex }}</p>
-			<button @click="postComment(postIndex)">コメントする</button>
-
-			<ul class="cList">
-				<li v-for="comment in innerCommentList">{{ comment }}</li>
-			</ul>
-
-		</div>
-		<div class="modalBg" @click="closeComment"></div>
-	</div>
-	`,
-	computed: {
-		innerNewComment: {
-			get(){
-				return this.newComment
-			},
-			set(newComment){
-				this.$emit('update:newComment', newComment)
-			}
-		},
-		innerCommentList: {
-			get(){
-				return this.commentList
-			},
-			set(commentList){
-				this.$emit('update:commentList', commentList)
-			}
-		},
-		innerTodos: {
-			get(){
-				return this.todos
-			},
-			set(todos){
-				this.$emit('update:todos', todos)
-			}
-		}
-	},
-	methods: {
-		postComment: function(index) {
-			console.log(index);
-			this.innerTodos[index].comments.push(this.innerNewComment);
-			this.innerCommentList = this.innerTodos[index].comments;
-			this.innerNewComment = '';
-		},
-
-		closeComment: function() {
-			document.getElementById('modalBlock').classList.remove('show');
-		}
-	}
-}
 
 const vm = new Vue({
 	el: '#app',
-	components: {
-		"modal-component": modal
-	},
+
 	data: {
 		id: 1, // ID
 		radioName: 'radio', // ラジオボタンの名前用
@@ -276,5 +205,15 @@ const vm = new Vue({
 			this.postIndex = index;
 			document.getElementById('modalBlock').classList.add('show');
 		},
+
+		postComment: function(index) {
+			this.todos[index].comments.push(this.newComment);
+			this.commentList = this.todos[index].comments;
+			this.newComment = '';
+		},
+
+		closeComment: function() {
+			document.getElementById('modalBlock').classList.remove('show');
+		}
 	},
 });

@@ -234,15 +234,20 @@
 				<button @click="changeTodo(editIndex)" class="change-btn">変更</button>
 			</fieldset>
 
-			<modal-component
-			:todos="todos"
-			@update:todos="todos=$event"
-			:newComment="newComment"
-			@update:newComment="newComment=$event"
-			:postIndex="postIndex"
-			:commentList="commentList"
-			@update:commentList="commentList=$event"
-			></modal-component>
+			<div id="modalBlock">
+				<div class="commentBlock">
+					<p class="closeBtn" @click="closeComment">閉じる</p>
+
+					<textarea cols="50" rows="5" v-model="newComment"></textarea>
+					<button @click="postComment(postIndex)">コメントする</button>
+
+					<ul class="cList">
+						<li v-for="comment in commentList">{{ comment }}</li>
+					</ul>
+
+				</div>
+				<div class="modalBg" @click="closeComment"></div>
+			</div>
 		</form>
 
 		<pre style="margin-top: 100px;">{{$data}}</pre>

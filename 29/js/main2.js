@@ -1,31 +1,28 @@
+// todo
+// 2. 期限ソートした時にチェック外れるの調査
+
 'use strict';
 
 const ModalComponent = {
 	props: [
 		'todos',
+		'postIndex',
+		'commentList',
 	],
 	data() {
 		return {
 			newComment: '',
 			commentTodos: this.todos,
+			commentModalList: this.commentList,
 		}
 	},
-  computed: {
-    internalNewComment: {
-      get: function() {
-        return this.newComment;
-      },
-      set: function(newComment) {
-        this.$emit('update:new-comment', newComment);
-      }
-    }
-  },
 	methods: {
-		// postComment: function(index) {
-		// 	this.todos[index].comments.push(this.newComment);
-		// 	this.commentList = this.todos[index].comments;
-		// 	this.newComment = '';
-		// },
+		postComment: function(index) {
+			this.commentTodos[index].comments.push(this.newComment);
+			this.commentModalList = this.commentTodos[index].comments;
+			this.newComment = '';
+			this.$emit('commentAddTodos', this.commentTodos);
+		},
 
 		closeComment: function() {
 			document.getElementById('modalBlock').classList.remove('show');
@@ -36,11 +33,11 @@ const ModalComponent = {
 			<div class="commentBlock">
 				<p class="closeBtn" @click="closeComment">閉じる</p>
 
-				<textarea cols="50" rows="5" v-model="internalNewComment"></textarea>
-				<button>コメントする</button>
+				<textarea cols="50" rows="5" v-model="newComment"></textarea>
+				<button @click="postComment(postIndex)">コメントする</button>
 
 				<ul class="cList">
-					<li>{{ commentTodos }}</li>
+					<li v-for="comment in commentList">{{ comment }}</li>
 				</ul>
 
 			</div>
@@ -97,9 +94,8 @@ const vm = new Vue({
 		},
 		filterCheck: [],
 		editTime: '',
-		newComment: '',
-		commentList: [],
 		postIndex: 0,
+		commentList: [],
 	},
 
 	methods: {
@@ -240,6 +236,11 @@ const vm = new Vue({
 			const endPeriod = new Date(this.filterDateEnd.year, this.filterDateEnd.month -1, this.filterDateEnd.date).toLocaleDateString();
 			const that = this;
 
+			if(startPeriod >= endPeriod) {
+				alert('期間を正しく設定してください');
+				return;
+			};
+
 			that.processTodos.length = 0;
 
 			that.processTodos = that.todos.filter(function(value) {
@@ -256,11 +257,5 @@ const vm = new Vue({
 			this.postIndex = index;
 			document.getElementById('modalBlock').classList.add('show');
 		},
-
-		// postComment: function(index) {
-		// 	this.todos[index].comments.push(this.newComment);
-		// 	this.commentList = this.todos[index].comments;
-		// 	this.newComment = '';
-		// },
 	},
 });

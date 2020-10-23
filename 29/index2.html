@@ -235,24 +235,10 @@
 			</fieldset>
 
 			<modal-component
+			:post-index="postIndex"
+			:comment-list="commentList"
 			:todos="todos"
-			@update:todos="todos=$event"
-			@update:new-comment="newComment=$event"></modal-component>
-
-			<!-- <div id="modalBlock">
-				<div class="commentBlock">
-					<p class="closeBtn" @click="closeComment">閉じる</p>
-
-					<textarea cols="50" rows="5" v-model="newComment"></textarea>
-					<button @click="postComment(postIndex)">コメントする</button>
-
-					<ul class="cList">
-						<li v-for="comment in commentList">{{ comment }}</li>
-					</ul>
-
-				</div>
-				<div class="modalBg" @click="closeComment"></div>
-			</div> -->
+			@commentAddTodos="todos"></modal-component>
 		</form>
 
 		<pre style="margin-top: 100px;">{{$data}}</pre>

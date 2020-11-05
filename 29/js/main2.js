@@ -1,4 +1,5 @@
-// todo
+// issue
+// 1. ソート機能（複合検索も）
 // 2. 期限ソートした時にチェック外れるの調査
 
 'use strict';
@@ -67,7 +68,68 @@ const vm = new Vue({
 		status: '未着手', // デフォルトのステータス
 		isDone: false, // 完了かどうか
 		isProgress: false, // 進行中かどうか
-		todos: [], // タスクの配列
+		todos: [
+			{
+				"id": 1,
+				"title": "ふぁえふぁふぁふむふむあえふぁｓｆだ",
+				"text": "ふぁｗふぇわｆ",
+				"radioName": "radio1",
+				"radioYet": "yet1",
+				"radioProgress": "progress1",
+				"radioDone": "done1",
+				"limit": {
+					"year": 2020,
+					"month": 1,
+					"date": 1
+				},
+				"limits": "2020/1/1",
+				"createTime": "2020/11/5",
+				"status": "未着手",
+				"isDone": false,
+				"isProgress": false,
+				"comments": []
+			},
+			{
+				"id": 2,
+				"title": "ふふぁふぁふむふむあえふぁｓｆだ",
+				"text": "ふぁｗふぇわｆ",
+				"radioName": "radio2",
+				"radioYet": "yet2",
+				"radioProgress": "progress2",
+				"radioDone": "done2",
+				"limit": {
+					"year": 2021,
+					"month": 1,
+					"date": 1
+				},
+				"limits": "2021/1/1",
+				"createTime": "2020/11/5",
+				"status": "未着手",
+				"isDone": false,
+				"isProgress": false,
+				"comments": []
+			},
+			{
+				"id": 3,
+				"title": "むふむあえふぁｓｆだ",
+				"text": "ふぁｗふぇわｆ",
+				"radioName": "radio3",
+				"radioYet": "yet3",
+				"radioProgress": "progress3",
+				"radioDone": "done3",
+				"limit": {
+					"year": 2022,
+					"month": 1,
+					"date": 1
+				},
+				"limits": "2022/1/1",
+				"createTime": "2020/11/5",
+				"status": "未着手",
+				"isDone": false,
+				"isProgress": false,
+				"comments": []
+			}
+		], // タスクの配列
 		processTodos: [],  // 表示用のタスクの配列
 
 		isEdit: false, // 編集用の表示・非表示
@@ -96,6 +158,10 @@ const vm = new Vue({
 		editTime: '',
 		postIndex: 0,
 		commentList: [],
+	},
+
+	computed: {
+
 	},
 
 	methods: {
@@ -258,4 +324,7 @@ const vm = new Vue({
 			document.getElementById('modalBlock').classList.add('show');
 		},
 	},
+	created: function() {
+		this.pushTodo();
+	}
 });

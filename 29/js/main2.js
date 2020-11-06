@@ -141,7 +141,7 @@ const vm = new Vue({
 			month: '',
 			date: ''
 		},
-		isSortId: true,
+		isSortId: false,
 		sortIdText: '新しい順に変更',
 
 		filterDateStart: {
@@ -256,45 +256,40 @@ const vm = new Vue({
 			this.pushTodo();
 		},
 
-		sortClickId: function() {
-			this.isSortId = !this.isSortId;
-			this.sortId();
-		},
-
 		sortId: function() {
 			// 昇順
 			if(this.isSortId === true) {
-				this.todos.sort(function(a,b){
+				this.processTodos.sort(function(a,b){
 					return (a.id < b.id ? -1 : 1);
 				});
 				this.sortIdText = '新しい順に変更';
-				this.pushTodo();
+				this.isSortId = !this.isSortId;
+				return;
 			}
 
 			// 降順
 			if(this.isSortId === false) {
-				this.todos.sort(function(a,b){
+				this.processTodos.sort(function(a,b){
 					return (a.id > b.id ? -1 : 1);
 				});
 				this.sortIdText = '古い順に変更';
-				this.pushTodo();
+				this.isSortId = !this.isSortId;
+				return;
 			}
 		},
 
 		sortClickFastLimit: function() {
 			// 昇順
-			this.todos.sort(function(a,b){
+			this.processTodos.sort(function(a,b){
 				return (a.limits < b.limits ? -1 : 1);
 			});
-			this.pushTodo();
 		},
 
 		sortClickLastLimit: function() {
 			// 降順
-			this.todos.sort(function(a,b){
+			this.processTodos.sort(function(a,b){
 				return (a.limits > b.limits ? -1 : 1);
 			});
-			this.pushTodo();
 		},
 
 		filterTodo: function() {
@@ -310,11 +305,7 @@ const vm = new Vue({
 			that.processTodos.length = 0;
 
 			that.processTodos = that.todos.filter(function(value) {
-				return value.limits >= startPeriod && value.limits <= endPeriod;
-			});
-
-			that.processTodos = that.todos.filter(function(value) {
-				return that.filterCheck.includes(value.status) === true;
+				return (value.limits >= startPeriod && value.limits <= endPeriod) && (that.filterCheck.includes(value.status) === true);
 			});
 		},
 

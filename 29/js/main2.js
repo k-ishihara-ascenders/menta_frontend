@@ -243,17 +243,14 @@ const vm = new Vue({
 		},
 
 		radioChange: function(index) { // 完了かどうかの判断用
-			if(this.todos[index].status === "完了") {
-				this.todos[index].isDone = true;
-			} else {
-				this.todos[index].isDone = false;
+			if(this.processTodos[index].status === "完了") {
+				this.processTodos[index].isDone = true;
+			} else if(this.processTodos[index].status === "進行中") {
+				this.processTodos[index].isProgress = true;
+			}  else {
+				this.processTodos[index].isDone = false;
+				this.processTodos[index].isProgress = false;
 			}
-			if(this.todos[index].status === "進行中") {
-				this.todos[index].isProgress = true;
-			} else {
-				this.todos[index].isProgress = false;
-			}
-			this.pushTodo();
 		},
 
 		sortId: function() {

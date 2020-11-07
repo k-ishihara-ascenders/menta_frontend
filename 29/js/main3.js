@@ -157,30 +157,29 @@ const vm = new Vue({
 		editTime: '',
 		postIndex: 0,
 		commentList: [],
-		isSortId: false,
+		isSortId: true,
 	},
 
 	computed: {
 		createTodos: function() {
-			return this.todos
-		},
-
-		sortId: function() {
-			console.log(aaa);
+			let todos2 = [];
 			// 昇順
 			if(this.isSortId === true) {
-				this.todos.sort(function(a,b){
+				todos2 = this.todos.sort(function(a,b){
 					return (a.id < b.id ? -1 : 1);
 				});
+				this.sortIdText = '新しい順に変更';
 			}
 
 			// 降順
 			if(this.isSortId === false) {
-				this.todos.sort(function(a,b){
+				todos2 = this.todos.sort(function(a,b){
 					return (a.id > b.id ? -1 : 1);
 				});
 				this.sortIdText = '古い順に変更';
 			}
+
+			return todos2
 		},
 	},
 

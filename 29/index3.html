@@ -192,7 +192,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(todo, index) in processTodos" :class="{done: todo.isDone, progress: todo.isProgress}">
+					<tr v-for="(todo, index) in createTodos" :class="{done: todo.isDone, progress: todo.isProgress}">
 						<td>{{todo.id}}</td>
 						<td>{{todo.title}}</td>
 						<td>{{todo.text}}</td>
@@ -239,12 +239,16 @@
 			:comment-list="commentList"
 			:todos="todos"
 			@commentAddTodos="todos"></modal-component>
-    </form>
+		</form>
+
+		<div>
+			{{ createTodos }}
+		</div>
 
 		<pre style="margin-top: 100px;">{{$data}}</pre>
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-	<script src="js/main2.js"></script>
+	<script src="js/main3.js"></script>
 </body>
 </html>

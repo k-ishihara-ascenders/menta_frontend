@@ -130,7 +130,7 @@ const vm = new Vue({
 				"comments": []
 			}
 		], // タスクの配列
-		processTodos: [],  // 表示用のタスクの配列
+		// processTodos: [],  // 表示用のタスクの配列
 
 		isEdit: false, // 編集用の表示・非表示
 		editIndex: 0,// 編集用のインデックス
@@ -141,7 +141,6 @@ const vm = new Vue({
 			month: '',
 			date: ''
 		},
-		isSortId: false,
 		sortIdText: '新しい順に変更',
 
 		filterDateStart: {
@@ -158,10 +157,31 @@ const vm = new Vue({
 		editTime: '',
 		postIndex: 0,
 		commentList: [],
-		sortOrder: true,
+		isSortId: false,
 	},
 
 	computed: {
+		createTodos: function() {
+			return this.todos
+		},
+
+		sortId: function() {
+			console.log(aaa);
+			// 昇順
+			if(this.isSortId === true) {
+				this.todos.sort(function(a,b){
+					return (a.id < b.id ? -1 : 1);
+				});
+			}
+
+			// 降順
+			if(this.isSortId === false) {
+				this.todos.sort(function(a,b){
+					return (a.id > b.id ? -1 : 1);
+				});
+				this.sortIdText = '古い順に変更';
+			}
+		},
 	},
 
 	methods: {
@@ -192,7 +212,7 @@ const vm = new Vue({
 				isProgress: this.isProgress,
 				comments: [],
 			});
-			this.pushTodo();
+			// this.pushTodo();
 			this.sortId();
 			this.id++;
 			this.newTodo = '';
@@ -202,13 +222,13 @@ const vm = new Vue({
 			this.newLimit.date = '';
 		},
 
-		pushTodo: function() {
-			const that = this;
-			that.processTodos.length = 0;
-			that.todos.forEach(function(todo) {
-				that.processTodos.push(todo);
-			});
-		},
+		// pushTodo: function() {
+		// 	const that = this;
+		// 	that.processTodos.length = 0;
+		// 	that.todos.forEach(function(todo) {
+		// 		that.processTodos.push(todo);
+		// 	});
+		// },
 
 		editShow: function(index) {
 			this.editIndex = index;
@@ -254,26 +274,30 @@ const vm = new Vue({
 		},
 
 		sortId: function() {
-			// 昇順
-			if(this.isSortId === true) {
-				this.processTodos.sort(function(a,b){
-					return (a.id < b.id ? -1 : 1);
-				});
-				this.sortIdText = '新しい順に変更';
-				// this.isSortId = !this.isSortId;
-				return;
-			}
-
-			// 降順
-			if(this.isSortId === false) {
-				this.processTodos.sort(function(a,b){
-					return (a.id > b.id ? -1 : 1);
-				});
-				this.sortIdText = '古い順に変更';
-				this.isSortId = !this.isSortId;
-				return;
-			}
+			this.isSortId = !this.isSortId;
 		},
+
+		// sortId: function() {
+		// 	// 昇順
+		// 	if(this.isSortId === true) {
+		// 		this.processTodos.sort(function(a,b){
+		// 			return (a.id < b.id ? -1 : 1);
+		// 		});
+		// 		this.sortIdText = '新しい順に変更';
+		// 		this.isSortId = !this.isSortId;
+		// 		return;
+		// 	}
+
+		// 	// 降順
+		// 	if(this.isSortId === false) {
+		// 		this.processTodos.sort(function(a,b){
+		// 			return (a.id > b.id ? -1 : 1);
+		// 		});
+		// 		this.sortIdText = '古い順に変更';
+		// 		this.isSortId = !this.isSortId;
+		// 		return;
+		// 	}
+		// },
 
 		sortClickFastLimit: function() {
 			// 昇順
@@ -312,7 +336,4 @@ const vm = new Vue({
 			document.getElementById('modalBlock').classList.add('show');
 		},
 	},
-	created: function() {
-		this.pushTodo();
-	}
 });

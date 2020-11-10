@@ -141,7 +141,6 @@ const vm = new Vue({
 			month: '',
 			date: ''
 		},
-		sortIdText: '新しい順に変更',
 
 		filterDateStart: {
 			year: '2020',
@@ -157,25 +156,61 @@ const vm = new Vue({
 		editTime: '',
 		postIndex: 0,
 		commentList: [],
+		todoStatus: 'initial',
 		isSortId: true,
+		sortIdText: '新しい順に変更',
+		isSortClickLimit: true,
+		sortClickLimitText: '期限が早い順に変更',
 	},
 
 	computed: {
-		createTodos: function() {
-			console.log('テスト')
+		sortIdTodos: function() {
 			// 昇順
 			if(this.isSortId) {
 				this.sortIdText = '新しい順に変更';
-				return this.todos.sort(function(a,b){
+				return this.todos.slice().sort(function(a,b){
 					return (a.id < b.id ? -1 : 1);
 				});
 			// 降順
 			} else {
 				this.sortIdText = '古い順に変更';
-				return this.todos.sort(function(a,b){
+				return this.todos.slice().sort(function(a,b){
 					return (a.id > b.id ? -1 : 1);
 				});
 			}
+		},
+
+		sortClickLimitTodos: function() {
+			// 昇順
+			if(this.isSortClickLimit) {
+				this.sortClickLimitText = '期限が早い順に変更';
+				return this.todos.slice().sort(function(a,b){
+					return (a.limits < b.limits ? -1 : 1);
+				});
+			// 降順
+			} else {
+				this.sortClickLimitText = '期限が遅い順に変更';
+				return this.todos.slice().sort(function(a,b){
+					return (a.limits > b.limits ? -1 : 1);
+				});
+			}
+		},
+
+		filterTodos: function() {
+			this.todoStatus = 'filter';
+
+			const startPeriod = new Date(this.filterDateStart.year, this.filterDateStart.month -1, this.filterDateStart.date).toLocaleDateString();
+			const endPeriod = new Date(this.filterDateEnd.year, this.filterDateEnd.month -1, this.filterDateEnd.date).toLocaleDateString();
+			const that = this;
+
+			if(startPeriod >= endPeriod) {
+				alert('期間を正しく設定してください');
+				return;
+			};
+
+			return that.todos.filter(function(value) {
+				return (value.limits >= startPeriod && value.limits <= endPeriod) && (that.filterCheck.includes(value.status) === true);
+			});
 		},
 	},
 
@@ -208,7 +243,7 @@ const vm = new Vue({
 				comments: [],
 			});
 			// this.pushTodo();
-			this.sortId();
+			// this.sortId();
 			this.id++;
 			this.newTodo = '';
 			this.newText = '';
@@ -246,30 +281,40 @@ const vm = new Vue({
 			this.todos[index].limits = editLimits;
 			const nowTime = new Date().toLocaleDateString();
 			this.todos[index].editTime = nowTime;
-			this.pushTodo();
+			// this.pushTodo();
 
 			this.isEdit = false;
 		},
 
 		deleteTodo: function(index) {
 			this.todos.splice(index, 1);
-			this.pushTodo();
+			// this.pushTodo();
 			this.isEdit = false;
 		},
 
 		radioChange: function(index) { // 完了かどうかの判断用
-			if(this.processTodos[index].status === "完了") {
-				this.processTodos[index].isDone = true;
-			} else if(this.processTodos[index].status === "進行中") {
-				this.processTodos[index].isProgress = true;
+			if(this.todos[index].status === "完了") {
+				this.todos[index].isDone = true;
+			} else if(this.todos[index].status === "進行中") {
+				this.todos[index].isProgress = true;
 			}  else {
-				this.processTodos[index].isDone = false;
-				this.processTodos[index].isProgress = false;
+				this.todos[index].isDone = false;
+				this.todos[index].isProgress = false;
 			}
 		},
 
 		sortId: function() {
 			this.isSortId = !this.isSortId;
+			this.todoStatus = 'sortId';
+		},
+
+		sortClickLimit: function() {
+			this.isSortClickLimit = !this.isSortClickLimit;
+			this.todoStatus = 'sortClickLimit';
+		},
+
+		filterchange: function() {
+			this.todoStatus = 'filter';
 		},
 
 		// sortId: function() {
@@ -294,36 +339,36 @@ const vm = new Vue({
 		// 	}
 		// },
 
-		sortClickFastLimit: function() {
-			// 昇順
-			this.processTodos.sort(function(a,b){
-				return (a.limits < b.limits ? -1 : 1);
-			});
-		},
+		// sortClickFastLimit: function() {
+		// 	// 昇順
+		// 	this.processTodos.sort(function(a,b){
+		// 		return (a.limits < b.limits ? -1 : 1);
+		// 	});
+		// },
 
-		sortClickLastLimit: function() {
-			// 降順
-			this.processTodos.sort(function(a,b){
-				return (a.limits > b.limits ? -1 : 1);
-			});
-		},
+		// sortClickLastLimit: function() {
+		// 	// 降順
+		// 	this.processTodos.sort(function(a,b){
+		// 		return (a.limits > b.limits ? -1 : 1);
+		// 	});
+		// },
 
-		filterTodo: function() {
-			const startPeriod = new Date(this.filterDateStart.year, this.filterDateStart.month -1, this.filterDateStart.date).toLocaleDateString();
-			const endPeriod = new Date(this.filterDateEnd.year, this.filterDateEnd.month -1, this.filterDateEnd.date).toLocaleDateString();
-			const that = this;
+		// filterTodo: function() {
+		// 	const startPeriod = new Date(this.filterDateStart.year, this.filterDateStart.month -1, this.filterDateStart.date).toLocaleDateString();
+		// 	const endPeriod = new Date(this.filterDateEnd.year, this.filterDateEnd.month -1, this.filterDateEnd.date).toLocaleDateString();
+		// 	const that = this;
 
-			if(startPeriod >= endPeriod) {
-				alert('期間を正しく設定してください');
-				return;
-			};
+		// 	if(startPeriod >= endPeriod) {
+		// 		alert('期間を正しく設定してください');
+		// 		return;
+		// 	};
 
-			that.processTodos.length = 0;
+		// 	that.processTodos.length = 0;
 
-			that.processTodos = that.todos.filter(function(value) {
-				return (value.limits >= startPeriod && value.limits <= endPeriod) && (that.filterCheck.includes(value.status) === true);
-			});
-		},
+		// 	that.processTodos = that.todos.filter(function(value) {
+		// 		return (value.limits >= startPeriod && value.limits <= endPeriod) && (that.filterCheck.includes(value.status) === true);
+		// 	});
+		// },
 
 		showComment: function(index) {
 			this.commentList = this.todos[index].comments;

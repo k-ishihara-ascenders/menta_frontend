@@ -34,7 +34,7 @@
 				<h2>検索</h2>
 				<p>
 					<h3>期間</h3>
-					<select name="filterDateYearStart" v-model="filterDateStart.year">
+					<select name="filterDateYearStart" v-model="filterDateStart.year" @change="filterchange">
 						<option value="2020">2020</option>
 						<option value="2021">2021</option>
 						<option value="2022">2022</option>
@@ -43,7 +43,7 @@
 						<option value="2025">2025</option>
 					</select>年
 
-					<select name="filterDateYearMonth" v-model="filterDateStart.month">
+					<select name="filterDateYearMonth" v-model="filterDateStart.month" @change="filterchange">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -58,7 +58,7 @@
 						<option value="12">12</option>
 					</select>月
 
-					<select name="filterDateDayStart" v-model="filterDateStart.date">
+					<select name="filterDateDayStart" v-model="filterDateStart.date" @change="filterchange">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -92,7 +92,7 @@
 						<option value="31">31</option>
 					</select>日　〜
 
-					<select name="filterDateYearEnd" v-model="filterDateEnd.year">
+					<select name="filterDateYearEnd" v-model="filterDateEnd.year" @change="filterchange">
 						<option value="2020">2020</option>
 						<option value="2021">2021</option>
 						<option value="2022">2022</option>
@@ -101,7 +101,7 @@
 						<option value="2025">2025</option>
 					</select>年
 
-					<select name="filterDateMonthEnd" v-model="filterDateEnd.month">
+					<select name="filterDateMonthEnd" v-model="filterDateEnd.month" @change="filterchange">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -116,7 +116,7 @@
 						<option value="12">12</option>
 					</select>月
 
-					<select name="filterDateDayEnd" v-model="filterDateEnd.date">
+					<select name="filterDateDayEnd" v-model="filterDateEnd.date" @change="filterchange">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -153,14 +153,14 @@
 
 				<p>
 					<label for="filterYet">未着手</label>
-					<input type="checkbox" name="status" value="未着手" id="filterYet" v-model="filterCheck">
+					<input type="checkbox" name="status" value="未着手" id="filterYet" v-model="filterCheck" @change="filterchange">
 					<label for="filterProgress">進行中</label>
-					<input type="checkbox" name="status" value="進行中" v-model="filterCheck">
+					<input type="checkbox" name="status" value="進行中" v-model="filterCheck" @change="filterchange">
 					<label for="filterDone">完了</label>
-					<input type="checkbox" name="status" value="完了" id="filterDone" v-model="filterCheck">
+					<input type="checkbox" name="status" value="完了" id="filterDone" v-model="filterCheck" @change="filterchange">
 				</p>
 
-				<button @click="filterTodo">検索</button>
+				<!-- <button @click="filterchange">検索</button> -->
 			</fieldset>
 
 			<table>
@@ -172,8 +172,7 @@
 						<th></th>
 						<th></th>
 						<th>
-							<button @click="sortClickFastLimit">期限が早い順に変更</button><br>
-							<button @click="sortClickLastLimit">期限が遅い順に変更</button>
+							<button @click="sortClickLimit">{{ sortClickLimitText }}</button>
 						</th>
 						<th></th>
 						<th></th>
@@ -192,29 +191,109 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(todo, index) in createTodos" :class="{done: todo.isDone, progress: todo.isProgress}">
-						<td>{{todo.id}}</td>
-						<td>{{todo.title}}</td>
-						<td>{{todo.text}}</td>
-						<td>{{todo.limits}}</td>
-						<td>
-							<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
-							<label :for="todo.radioYet">未着手</label>
+					<template v-if="todoStatus === 'initial'">
+						<tr v-for="(todo, index) in todos" :class="{done: todo.isDone, progress: todo.isProgress}">
+							<td>{{todo.id}}</td>
+							<td>{{todo.title}}</td>
+							<td>{{todo.text}}</td>
+							<td>{{todo.limits}}</td>
+							<td>
+								<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioYet">未着手</label>
 
-							<input type="radio" :name="todo.radioName" value="進行中" :id="todo.radioProgress" v-model="todo.status" @change="radioChange(index)">
-							<label :for="todo.radioProgress">進行中</label>
+								<input type="radio" :name="todo.radioName" value="進行中" :id="todo.radioProgress" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioProgress">進行中</label>
 
-							<input type="radio" :name="todo.radioName" value="完了" :id="todo.radioDone" v-model="todo.status" @change="radioChange(index)">
-							<label :for="todo.radioDone">完了</label>
-						</td>
-						<td>{{todo.createTime}}</td>
-						<td>{{todo.editTime}}</td>
-						<td>
-							<button @click="showComment(index)">コメント</button>
-							<button @click="editShow(index)">編集</button>
-							<button @click="deleteTodo(index)">削除</button>
-						</td>
-					</tr>
+								<input type="radio" :name="todo.radioName" value="完了" :id="todo.radioDone" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioDone">完了</label>
+							</td>
+							<td>{{todo.createTime}}</td>
+							<td>{{todo.editTime}}</td>
+							<td>
+								<button @click="showComment(index)">コメント</button>
+								<button @click="editShow(index)">編集</button>
+								<button @click="deleteTodo(index)">削除</button>
+							</td>
+						</tr>
+					</template>
+
+					<template v-else-if="todoStatus === 'sortId'">
+						<tr v-for="(todo, index) in sortIdTodos" :class="{done: todo.isDone, progress: todo.isProgress}">
+							<td>{{todo.id}}</td>
+							<td>{{todo.title}}</td>
+							<td>{{todo.text}}</td>
+							<td>{{todo.limits}}</td>
+							<td>
+								<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioYet">未着手</label>
+
+								<input type="radio" :name="todo.radioName" value="進行中" :id="todo.radioProgress" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioProgress">進行中</label>
+
+								<input type="radio" :name="todo.radioName" value="完了" :id="todo.radioDone" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioDone">完了</label>
+							</td>
+							<td>{{todo.createTime}}</td>
+							<td>{{todo.editTime}}</td>
+							<td>
+								<button @click="showComment(index)">コメント</button>
+								<button @click="editShow(index)">編集</button>
+								<button @click="deleteTodo(index)">削除</button>
+							</td>
+						</tr>
+					</template>
+
+					<template v-else-if="todoStatus === 'sortClickLimit'">
+						<tr v-for="(todo, index) in sortClickLimitTodos" :class="{done: todo.isDone, progress: todo.isProgress}">
+							<td>{{todo.id}}</td>
+							<td>{{todo.title}}</td>
+							<td>{{todo.text}}</td>
+							<td>{{todo.limits}}</td>
+							<td>
+								<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioYet">未着手</label>
+
+								<input type="radio" :name="todo.radioName" value="進行中" :id="todo.radioProgress" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioProgress">進行中</label>
+
+								<input type="radio" :name="todo.radioName" value="完了" :id="todo.radioDone" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioDone">完了</label>
+							</td>
+							<td>{{todo.createTime}}</td>
+							<td>{{todo.editTime}}</td>
+							<td>
+								<button @click="showComment(index)">コメント</button>
+								<button @click="editShow(index)">編集</button>
+								<button @click="deleteTodo(index)">削除</button>
+							</td>
+						</tr>
+					</template>
+
+					<template v-else-if="todoStatus === 'filter'">
+						<tr v-for="(todo, index) in filterTodos" :class="{done: todo.isDone, progress: todo.isProgress}">
+							<td>{{todo.id}}</td>
+							<td>{{todo.title}}</td>
+							<td>{{todo.text}}</td>
+							<td>{{todo.limits}}</td>
+							<td>
+								<input type="radio" :name="todo.radioName" value="未着手" :id="todo.radioYet" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioYet">未着手</label>
+
+								<input type="radio" :name="todo.radioName" value="進行中" :id="todo.radioProgress" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioProgress">進行中</label>
+
+								<input type="radio" :name="todo.radioName" value="完了" :id="todo.radioDone" v-model="todo.status" @change="radioChange(index)">
+								<label :for="todo.radioDone">完了</label>
+							</td>
+							<td>{{todo.createTime}}</td>
+							<td>{{todo.editTime}}</td>
+							<td>
+								<button @click="showComment(index)">コメント</button>
+								<button @click="editShow(index)">編集</button>
+								<button @click="deleteTodo(index)">削除</button>
+							</td>
+						</tr>
+					</template>
 				</tbody>
 			</table>
 
@@ -242,7 +321,7 @@
 		</form>
 
 		<div>
-			{{ createTodos }}
+			{{ sortClickLimitTodos }}
 		</div>
 
 		<pre style="margin-top: 100px;">{{$data}}</pre>

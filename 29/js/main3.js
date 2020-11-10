@@ -162,24 +162,20 @@ const vm = new Vue({
 
 	computed: {
 		createTodos: function() {
-			let todos2 = [];
+			console.log('テスト')
 			// 昇順
-			if(this.isSortId === true) {
-				todos2 = this.todos.sort(function(a,b){
+			if(this.isSortId) {
+				this.sortIdText = '新しい順に変更';
+				return this.todos.sort(function(a,b){
 					return (a.id < b.id ? -1 : 1);
 				});
-				this.sortIdText = '新しい順に変更';
-			}
-
 			// 降順
-			if(this.isSortId === false) {
-				todos2 = this.todos.sort(function(a,b){
+			} else {
+				this.sortIdText = '古い順に変更';
+				return this.todos.sort(function(a,b){
 					return (a.id > b.id ? -1 : 1);
 				});
-				this.sortIdText = '古い順に変更';
 			}
-
-			return todos2
 		},
 	},
 
